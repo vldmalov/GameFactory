@@ -18,5 +18,3 @@ set_property(GLOBAL PROPERTY CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory("GameFactoryLib")
 add_subdirectory("Games/SpaceOdyssey")
-add_subdirectory("games/Match3")
-add_subdirectory("games/SpaceInvaders")

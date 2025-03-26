@@ -9,25 +9,24 @@ void RenderManager::Init() {
 }
 
 void RenderManager::Deinit() {
-	mSpriteComponents.clear();
+	mDrawables.clear();
 }
 
 void RenderManager::Render() {
-	for (auto* sprite : mSpriteComponents) {
-		sprite->Render(mRenderTarget);
+	for (auto* drawable : mDrawables) {
+		drawable->Render(mRenderTarget);
 	}
 }
 
-void RenderManager::AddSprite(SpriteComponent* sprite) {
-	mSpriteComponents.emplace_back(sprite);
+void RenderManager::AddDrawable(IDrawable* drawable) {
+	mDrawables.emplace_back(drawable);
 }
 
-void RenderManager::RemoveSprite(SpriteComponent* sprite) {
-	const auto& spriteIt = std::find(mSpriteComponents.begin(), mSpriteComponents.end(), sprite);
-	if (spriteIt != mSpriteComponents.end()) {
-		mSpriteComponents.erase(spriteIt);
+void RenderManager::RemoveDrawable(IDrawable* drawable) {
+	const auto& drawableIt = std::find(mDrawables.begin(), mDrawables.end(), drawable);
+	if (drawableIt != mDrawables.end()) {
+		mDrawables.erase(drawableIt);
 	}
 }
-
 
 }

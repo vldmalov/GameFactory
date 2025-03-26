@@ -1,10 +1,10 @@
-#include "TheFirstGame.h"
 #include "DebugTools/BenchmarkTimer.h"
 #include "GameScene/GameObjects/GameObjectComponents/InputComponent.h"
 #include "Input/InputProcessor.h"
 #include "Resources/ResourceManager.h"
+#include "SpaceOdyssey.h"
 
-TheFirstGame::TheFirstGame(const std::string& texturesDir)
+SpaceOdyssey::SpaceOdyssey(const std::string& texturesDir)
 	: mResourceManager(nullptr)
 	, mRenderManager(nullptr)
 	, mInputProcessor(nullptr)
@@ -12,7 +12,7 @@ TheFirstGame::TheFirstGame(const std::string& texturesDir)
 	, mTexturesDir(texturesDir) {
 }
 
-void TheFirstGame::Init(sf::RenderTarget& renderTarget) {
+void SpaceOdyssey::Init(sf::RenderTarget& renderTarget) {
 	GameFactory::BenchmarkTimer timer("Application::Init");
 
 	mResourceManager = std::make_unique<GameFactory::ResourceManager>(mTexturesDir);
@@ -32,14 +32,14 @@ void TheFirstGame::Init(sf::RenderTarget& renderTarget) {
 	mGameMainScene->Init(renderTargetSize);
 }
 
-void TheFirstGame::Deinit() {
+void SpaceOdyssey::Deinit() {
 	mGameMainScene->Deinit();
 	mInputProcessor->Deinit();
 	mRenderManager->Deinit();
 	mResourceManager->Deinit();
 }
 
-void TheFirstGame::Update(float deltaTime) {
+void SpaceOdyssey::Update(float deltaTime) {
 	if (mPause) {
 		return; // TODO: Should scene objects be updated anyway?
 	}
@@ -48,15 +48,19 @@ void TheFirstGame::Update(float deltaTime) {
 	mGameMainScene->Update(gameDeltaTime);
 }
 
-void TheFirstGame::Render(sf::RenderTarget& renderTarget) {
+void SpaceOdyssey::Render(sf::RenderTarget& renderTarget) {
 	mRenderManager->Render();
 }
 
-bool TheFirstGame::IsFinished() const {
+bool SpaceOdyssey::IsFinished() const {
 	return false;
 }
 
-bool TheFirstGame::OnKeyPressed(const sf::Event::KeyPressed* eventData) {
+void SpaceOdyssey::OnResize(const sf::Vector2u& windowSize) {
+
+}
+
+bool SpaceOdyssey::OnKeyPressed(const sf::Event::KeyPressed* eventData) {
 	// TODO: Move to Input Processor?
 	if (eventData->scancode == sf::Keyboard::Scancode::P ||
 		eventData->scancode == sf::Keyboard::Scancode::Pause ||
@@ -80,20 +84,20 @@ bool TheFirstGame::OnKeyPressed(const sf::Event::KeyPressed* eventData) {
 	return mInputProcessor->OnKeyPressed(eventData);
 }
 
-bool TheFirstGame::OnKeyReleased(const sf::Event::KeyReleased* eventData) {
+bool SpaceOdyssey::OnKeyReleased(const sf::Event::KeyReleased* eventData) {
 	return mInputProcessor->OnKeyReleased(eventData);
 };
 
 
-void TheFirstGame::OnMouseMoved(const sf::Vector2i& from, const sf::Vector2i& to) {
+void SpaceOdyssey::OnMouseMoved(const sf::Vector2i& from, const sf::Vector2i& to) {
 	mInputProcessor->OnMouseMoved(from, to);
 }
 
-void TheFirstGame::OnMouseButtonPressed(const sf::Vector2i& mousePos) {
+void SpaceOdyssey::OnMouseButtonPressed(const sf::Vector2i& mousePos) {
 	mInputProcessor->OnMouseButtonPressed(mousePos);
 }
 
-void TheFirstGame::OnMouseButtonReleased(const sf::Vector2i& mousePos) {
+void SpaceOdyssey::OnMouseButtonReleased(const sf::Vector2i& mousePos) {
 	mInputProcessor->OnMouseButtonReleased(mousePos);
 }
 

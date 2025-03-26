@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IDrawable.h"
+
 namespace GameFactory {
 
 class SpriteComponent;
@@ -13,8 +15,8 @@ public:
 
 	virtual void Render() = 0;
 
-	virtual void AddSprite(SpriteComponent* sprite) = 0;
-	virtual void RemoveSprite(SpriteComponent* sprite) = 0;
+	virtual void AddDrawable(IDrawable* sprite) = 0;
+	virtual void RemoveDrawable(IDrawable* sprite) = 0;
 };
 
 }

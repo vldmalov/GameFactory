@@ -1,58 +1,50 @@
-#include "AppUpdater.h"
-
-#include <iostream>
-
-#include "IAppDelegate.h"
+#include "AppUpdater/AppUpdater.h"
+#include "AppUpdater/IAppDelegate.h"
 
 #include <optional>
-#include <ostream>
+#include <iostream>
 
 namespace GameFactory {
-static const unsigned DefaultFrameRate = 30;
 
 AppUpdater::AppUpdater(IAppDelegate& appDelegate)
 : IAppUpdater(appDelegate) {
-	SetFrameRate(DefaultFrameRate);
+	srand(static_cast<unsigned int>(time(0)));
 }
 
-void AppUpdater::Init(sf::Vector2u windowSize, const sf::String& windowTitle) {
-	srand(static_cast<unsigned int>(time(0)));
-
+void AppUpdater::Init(sf::Vector2u windowSize, const sf::String& windowTitle, unsigned int frameRate) {
 	mWindow.create(sf::VideoMode(windowSize), windowTitle);
 	mAppDelegate.Init(mWindow);
+	SetFrameRate(frameRate);
+}
+
+void AppUpdater::SetFrameRate(unsigned short fps) {
+	mFrameRate = fps;
+	mWindow.setFramerateLimit(fps);
 }
 
 void AppUpdater::Deinit() {
 	mAppDelegate.Deinit();
 }
 
-void AppUpdater::Run() {
-	RunMainLoop();
-}
-
-void AppUpdater::SetFrameRate(unsigned short fps) {
-	mFrameRate = fps;
-	mWindow.setFramerateLimit(fps);
-
-	mTimePerFrame = 1.0f / fps;
-}
-
 void AppUpdater::RunMainLoop() {
 	sf::Clock timer;
-	while (mWindow.isOpen() && !mAppDelegate.IsFinished()) {
-		const auto deltaTime = timer.restart().asSeconds();
-		mTotalElapsedTime += deltaTime;
-		mTotalSimulationTime += mTimePerFrame;
-		std::cout << "Delta Time: " << deltaTime << " Calculated delta time: " << mTimePerFrame << std::endl;
-		std::cout << "Elapsed Time: " << mTotalElapsedTime << " Simulation Time: " << mTotalSimulationTime << std::endl;
+	const float gameDeltaTime = 1.0f / mFrameRate;
 
-		EventHandler();
-		Update(mTimePerFrame);
+	while (mWindow.isOpen() && !mAppDelegate.IsFinished()) {
+		const auto appDeltaTime = timer.restart().asSeconds();
+
+		++mAppUpdaterFrame.mFrameIndex;
+		mAppUpdaterFrame.mEllapsedAppTime += appDeltaTime;
+		mAppUpdaterFrame.mEllapsedGameTime += gameDeltaTime;
+		std::cout << mAppUpdaterFrame << std::endl;
+
+		ProcessEvents();
+		Update(gameDeltaTime);
 		Render();
 	}
 }
 
-void AppUpdater::EventHandler() {
+void AppUpdater::ProcessEvents() {
 	while (const std::optional<sf::Event> event = mWindow.pollEvent()) {
 		if (event->is<sf::Event::Closed>()) {
 			mWindow.close();
@@ -116,8 +108,7 @@ void AppUpdater::OnMouseButtonReleased(const sf::Event::MouseButtonReleased* eve
 }
 
 void AppUpdater::OnResize(const sf::Event::Resized* event) {
-	//const sf::Vector2u windowSize = mWindow.getSize();
-	//UpdateViewport(event->size);
+	// UpdateViewport(event->size);
 	mAppDelegate.OnResize(event->size);
 }
 

@@ -23,7 +23,12 @@ set(all_sources ${source_files} ${include_files}
         Include/Input/IInputProcessor.h
         Source/GameScene/GameObjects/GameObjectComponents/InputComponent.cpp
         Include/GameScene/GameObjects/GameObjectComponents/MovementComponents/CircleMovementComponent.h
-        Source/GameScene/GameObjects/GameObjectComponents/MovementComponents/CircleMovementComponent.cpp)
+        Source/GameScene/GameObjects/GameObjectComponents/MovementComponents/CircleMovementComponent.cpp
+        Include/GameScene/GameObjects/GameObjectComponents/SpriteAnimationComponent.h
+        Source/GameScene/GameObjects/GameObjectComponents/SpriteAnimationComponent.cpp
+        Include/Render/IDrawable.h
+        Source/AppUpdater/AppUpdaterFrame.cpp
+        Include/AppUpdater/AppUpdaterFrame.h)
 add_library(${target_name} STATIC ${all_sources})
 
 source_group("${target_name}\\Src" FILES ${source_files})

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IAppUpdater.h"
+#include "AppUpdater/AppUpdaterFrame.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -14,15 +15,15 @@ public:
 	explicit AppUpdater(IAppDelegate& appDelegate);
 	~AppUpdater() override = default;
 
-	void Init(sf::Vector2u windowSize, const sf::String& windowTitle) override;
+	void Init(sf::Vector2u windowSize, const sf::String& windowTitle, unsigned int frameRate) override;
 	void Deinit() override;
 
-	void Run() override;
-	void SetFrameRate(unsigned short fps) override;
+	void RunMainLoop() override;
 
 private:
-	void RunMainLoop();
-	void EventHandler();
+	void SetFrameRate(unsigned short fps);
+
+	void ProcessEvents();
 	void Update(float deltaTime);
 	void Render();
 
@@ -36,11 +37,9 @@ private:
 	void OnResize(const sf::Event::Resized* event);
 
 	sf::RenderWindow mWindow;
-	uint mFrameRate{};
-	float mTimePerFrame{};
 
-	float mTotalElapsedTime{}; // TODO: Should it be here?
-	float mTotalSimulationTime{};
+	uint mFrameRate{};
+	AppUpdaterFrame mAppUpdaterFrame{};
 
 	sf::Vector2i mMousePos{}; // TODO: Should it be here?
 };

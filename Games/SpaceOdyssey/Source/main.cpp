@@ -1,15 +1,12 @@
-#include <iostream>
-
-#include "AppUpdater.h"
+#include "AppUpdater/AppUpdater.h"
 
 #include "Constants.h"
-#include "TheFirstGame.h"
+#include "SpaceOdyssey.h"
 
 int main() {
-	TheFirstGame game(TextureDir);
+	SpaceOdyssey game(TextureDir);
 	GameFactory::AppUpdater appUpdater(game);
-	appUpdater.Init({WindowWidth, WindowHeight}, WindowTitle);
-	appUpdater.SetFrameRate(FrameRateLimit);
-	appUpdater.Run();
+	appUpdater.Init({WindowWidth, WindowHeight}, WindowTitle, FrameRateLimit);
+	appUpdater.RunMainLoop();
 	appUpdater.Deinit();
 }

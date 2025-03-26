@@ -1,15 +1,15 @@
 #pragma once
 
-#include "IAppDelegate.h"
+#include "../../../GameFactoryLib/Include/AppUpdater/IAppDelegate.h"
 #include "GameMainScene.h"
-#include "Resources/IResourceManager.h"
-#include "Render/RenderManager.h"
 #include "Input/IInputProcessor.h"
+#include "Render/RenderManager.h"
+#include "Resources/IResourceManager.h"
 
 // TODO: Create the base class of the Game and move there mResourceManager and mRenderManager
-class TheFirstGame : public GameFactory::IAppDelegate {
+class SpaceOdyssey : public GameFactory::IAppDelegate {
 public:
-	explicit TheFirstGame(const std::string& texturesDir);
+	explicit SpaceOdyssey(const std::string& texturesDir);
 
 	void Init(sf::RenderTarget& renderTarget) override;
 	void Deinit() override;
@@ -17,7 +17,7 @@ public:
 	void Update(float deltaTime) override;
 	void Render(sf::RenderTarget& renderTarget) override;
 	bool IsFinished() const override;
-	void OnResize(const sf::Vector2u& windowSize) override {};
+	void OnResize(const sf::Vector2u& windowSize) override;
 	bool OnKeyPressed(const sf::Event::KeyPressed* eventData) override;
 	bool OnKeyReleased(const sf::Event::KeyReleased* eventData) override;
 	void OnMouseMoved(const sf::Vector2i& from, const sf::Vector2i& to) override;

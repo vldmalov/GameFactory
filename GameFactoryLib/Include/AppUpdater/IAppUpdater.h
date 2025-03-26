@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/System/Vector2.hpp>
 #include <SFML/System/String.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace GameFactory {
 
@@ -13,11 +13,9 @@ public:
 		mAppDelegate(delegate) {}
 	virtual ~IAppUpdater() = default;
 
-	virtual void Init(sf::Vector2u windowSize, const sf::String& windowTitle) = 0;
+	virtual void Init(sf::Vector2u windowSize, const sf::String& windowTitle, unsigned int frameRate) = 0;
 	virtual void Deinit() = 0;
-
-	virtual void Run() = 0;
-	virtual void SetFrameRate(unsigned short fps) = 0;
+	virtual void RunMainLoop() = 0;
 
 protected:
 	IAppDelegate& mAppDelegate;

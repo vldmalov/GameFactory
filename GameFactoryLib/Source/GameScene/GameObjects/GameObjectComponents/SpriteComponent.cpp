@@ -8,11 +8,11 @@ SpriteComponent::SpriteComponent(GameObjectBase* owner, IRenderManager& renderMa
 	: GameObjectComponent(owner, updateOrder)
 	, mRenderManager(renderManager)
 	, mSprite(texture) {
-	mRenderManager.AddSprite(this);
+	mRenderManager.AddDrawable(this);
 }
 
 SpriteComponent::~SpriteComponent() {
-	mRenderManager.RemoveSprite(this);
+	mRenderManager.RemoveDrawable(this);
 }
 
 void SpriteComponent::Update(float deltaTime) {
